@@ -32,6 +32,12 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        NeuralNetwork.cpp
+        NeuralNetwork.h
+        NeuralNetworkImporter.cpp
+        NeuralNetworkImporter.h
+        json.hpp
+        Image.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

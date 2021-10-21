@@ -7,6 +7,9 @@
 
 #include <QMouseEvent>
 #include <QHBoxLayout>
+#include <NeuralNetwork.h>
+#include <vector>
+#include <QMessageBox>
 
 
 QT_BEGIN_NAMESPACE
@@ -18,19 +21,28 @@ class MyWidget : public QWidget
 {
 Q_OBJECT
 
+public:
+    void ClearImage();
+
 protected:
     // the intent is to draw the circle here
     void paintEvent(QPaintEvent *event) override;
 
     // here be mouse events!
     void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 signals:
-    void mouseMoved (QPoint theNewCoordinates);
+
+    void handDrawingDone();
+
+public slots:
+    void onPenSizeChanged(int newSize);
 
 private:
 
-    QPoint m_mousePosition;
+    std::vector<QPoint> m_mousePositions;
+    int m_penSize = 20;
 
 };
 
@@ -45,12 +57,20 @@ public:
     ~MainWindow();
 
 public slots:
-    void onMouseMoved(QPoint coordinates);
+    void onLoadActionActivated();
+
+    void onNewActionActivated();
+
+    void onDrawingDone();
 
 private:
     Ui::MainWindow *ui;
     MyWidget * myWidget;
     QHBoxLayout * m_hLayout;
+
+    NeuralNet m_myNetwork;
+    QMessageBox m_alert;
+
 
 };
 #endif // MAINWINDOW_H
